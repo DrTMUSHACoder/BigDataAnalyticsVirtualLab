@@ -10,7 +10,7 @@
     overflow-y: hidden;
     border-right: 1px solid var(--glass-border);
     /* Apply glass effect provided by global .glass class if needed, or inline here */
-    background: rgba(15, 23, 42, 0.6);
+    background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     z-index: 50;
@@ -19,6 +19,18 @@
 
 .sidebar.hidden {
     transform: translateX(-100%);
+    pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        z-index: 1000;
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar-controls {
+        display: none;
+    }
 }
 
 .sidebar-controls {
@@ -106,15 +118,15 @@
 }
 
 .nav-item:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(var(--accent-rgb), 0.05);
     color: var(--text-primary);
     transform: translateX(4px);
 }
 
 .nav-item.active {
-    background: rgba(14, 165, 233, 0.1);
+    background: rgba(var(--accent-rgb), 0.15);
     color: var(--accent-glow);
-    border-color: rgba(14, 165, 233, 0.2);
+    border-color: rgba(var(--accent-rgb), 0.25);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -175,7 +187,7 @@
     border-radius: 8px;
     color: var(--text-secondary);
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(var(--accent-rgb), 0.05);
     border: 1px solid transparent;
 }
 

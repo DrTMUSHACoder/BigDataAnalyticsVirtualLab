@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Heart, X, Send, CheckCircle2 } from 'lucide-react';
+import { Heart, X, Send, CheckCircle2, BookOpen, Lightbulb, Smile, MessageSquare, Compass, MousePointer2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './FeedbackWidget.css';
 
 const FeedbackWidget = () => {
@@ -9,12 +10,15 @@ const FeedbackWidget = () => {
         clarity: '',
         helpful: '',
         satisfaction: '',
+        navigation: '',
+        interactivity: '',
         comments: ''
     });
 
+    const isFormValid = feedback.clarity && feedback.helpful && feedback.satisfaction && feedback.navigation && feedback.interactivity;
+
     const handleSubmit = (e) => {
-        e.preventDefault();
-        // Store in localStorage (Simulating database/excel storage)
+        if (e) e.preventDefault();
         const timestamp = new Date().toLocaleString();
         const newFeedback = { ...feedback, timestamp };
         const existingData = JSON.parse(localStorage.getItem('lab_feedback') || '[]');
@@ -27,6 +31,29 @@ const FeedbackWidget = () => {
             setFeedback({ clarity: '', helpful: '', satisfaction: '', comments: '' });
         }, 3000);
     };
+
+    const QuestionRow = ({ icon: Icon, label, name, options, value, onChange }) => (
+        <div className="feedback-row">
+            <div className="question-header">
+                <Icon size={18} className="q-icon" />
+                <label className="step-question">{label}</label>
+            </div>
+            <div className="options-row">
+                {options.map(opt => (
+                    <label key={opt} className={`opt-pill ${value === opt ? 'active' : ''}`}>
+                        <input
+                            type="radio"
+                            name={name}
+                            value={opt}
+                            checked={value === opt}
+                            onChange={(e) => onChange(e.target.value)}
+                        />
+                        {opt}
+                    </label>
+                ))}
+            </div>
+        </div>
+    );
 
     return (
         <>
@@ -44,95 +71,109 @@ const FeedbackWidget = () => {
                 </button>
             </div>
 
-            {isOpen && (
-                <div className="feedback-modal-overlay">
-                    <div className="feedback-modal glass">
-                        {!submitted ? (
-                            <>
-                                <div className="modal-header">
-                                    <h3>Share Your Feedback</h3>
-                                    <button onClick={() => setIsOpen(false)} className="close-btn"><X size={20} /></button>
-                                </div>
-                                <form onSubmit={handleSubmit}>
-                                    <div className="form-group">
-                                        <label>1. Clarity of the lab procedures?</label>
-                                        <div className="options-grid">
-                                            {['Excellent', 'Good', 'Average', 'Poor'].map(opt => (
-                                                <label key={opt} className={`opt-label ${feedback.clarity === opt ? 'active' : ''}`}>
-                                                    <input
-                                                        type="radio"
-                                                        name="clarity"
-                                                        required
-                                                        value={opt}
-                                                        onChange={(e) => setFeedback({ ...feedback, clarity: e.target.value })}
-                                                    />
-                                                    {opt}
-                                                </label>
-                                            ))}
+            <AnimatePresence>
+                {isOpen && (
+                    <div className="feedback-modal-overlay">
+                        <motion.div
+                            className="feedback-modal glass"
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                        >
+                            {!submitted ? (
+                                <>
+                                    <div className="modal-header">
+                                        <div className="header-info">
+                                            <h3>Share Your Feedback</h3>
+                                            <p className="modal-subtitle">Your input helps us improve the learning experience.</p>
                                         </div>
+                                        <button onClick={() => setIsOpen(false)} className="close-btn"><X size={20} /></button>
                                     </div>
 
-                                    <div className="form-group">
-                                        <label>2. Cloud Shell instructions helpful?</label>
-                                        <div className="options-grid">
-                                            {['Very Helpful', 'Helpful', 'Neutral', 'Not helpful'].map(opt => (
-                                                <label key={opt} className={`opt-label ${feedback.helpful === opt ? 'active' : ''}`}>
-                                                    <input
-                                                        type="radio"
-                                                        name="helpful"
-                                                        required
-                                                        value={opt}
-                                                        onChange={(e) => setFeedback({ ...feedback, helpful: e.target.value })}
-                                                    />
-                                                    {opt}
-                                                </label>
-                                            ))}
+                                    <form onSubmit={handleSubmit} className="feedback-form-all">
+                                        <QuestionRow
+                                            icon={BookOpen}
+                                            label="1. Clarity of the lab procedures?"
+                                            name="clarity"
+                                            value={feedback.clarity}
+                                            options={['Excellent', 'Good', 'Average', 'Poor']}
+                                            onChange={(val) => setFeedback({ ...feedback, clarity: val })}
+                                        />
+
+                                        <QuestionRow
+                                            icon={Lightbulb}
+                                            label="2. Cloud Shell instructions helpful?"
+                                            name="helpful"
+                                            value={feedback.helpful}
+                                            options={['Very Helpful', 'Helpful', 'Neutral', 'Not helpful']}
+                                            onChange={(val) => setFeedback({ ...feedback, helpful: val })}
+                                        />
+
+                                        <QuestionRow
+                                            icon={Compass}
+                                            label="3. Ease of website navigation?"
+                                            name="navigation"
+                                            value={feedback.navigation}
+                                            options={['Excellent', 'Good', 'Average', 'Poor']}
+                                            onChange={(val) => setFeedback({ ...feedback, navigation: val })}
+                                        />
+
+                                        <QuestionRow
+                                            icon={MousePointer2}
+                                            label="4. Quality of GUI and interactivity?"
+                                            name="interactivity"
+                                            value={feedback.interactivity}
+                                            options={['Smooth', 'Good', 'Average', 'Needs Work']}
+                                            onChange={(val) => setFeedback({ ...feedback, interactivity: val })}
+                                        />
+
+                                        <QuestionRow
+                                            icon={Smile}
+                                            label="5. Overall satisfaction?"
+                                            name="satisfaction"
+                                            value={feedback.satisfaction}
+                                            options={['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied']}
+                                            onChange={(val) => setFeedback({ ...feedback, satisfaction: val })}
+                                        />
+
+                                        <div className="feedback-row">
+                                            <div className="question-header">
+                                                <MessageSquare size={18} className="q-icon" />
+                                                <label className="step-question">6. Any other comments? (Optional)</label>
+                                            </div>
+                                            <textarea
+                                                className="feedback-textarea"
+                                                placeholder="Tell us what you think..."
+                                                value={feedback.comments}
+                                                onChange={(e) => setFeedback({ ...feedback, comments: e.target.value })}
+                                            ></textarea>
                                         </div>
-                                    </div>
 
-                                    <div className="form-group">
-                                        <label>3. Overall satisfaction?</label>
-                                        <div className="options-grid">
-                                            {['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied'].map(opt => (
-                                                <label key={opt} className={`opt-label ${feedback.satisfaction === opt ? 'active' : ''}`}>
-                                                    <input
-                                                        type="radio"
-                                                        name="satisfaction"
-                                                        required
-                                                        value={opt}
-                                                        onChange={(e) => setFeedback({ ...feedback, satisfaction: e.target.value })}
-                                                    />
-                                                    {opt}
-                                                </label>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label>4. Any other comments? (Optional)</label>
-                                        <textarea
-                                            className="feedback-textarea"
-                                            placeholder="Tell us what you think..."
-                                            value={feedback.comments}
-                                            onChange={(e) => setFeedback({ ...feedback, comments: e.target.value })}
-                                        ></textarea>
-                                    </div>
-
-                                    <button type="submit" className="submit-btn">
-                                        Submit Feedback <Send size={16} />
-                                    </button>
-                                </form>
-                            </>
-                        ) : (
-                            <div className="success-message">
-                                <CheckCircle2 size={48} color="var(--success)" />
-                                <h2>Thank you for your valuable time!</h2>
-                                <p>Your feedback helps us make the Big Data Analytics Virtual Lab even better.</p>
-                            </div>
-                        )}
+                                        <button
+                                            type="submit"
+                                            className="submit-all-btn"
+                                            disabled={!isFormValid}
+                                        >
+                                            <span>Submit Feedback</span>
+                                            <Send size={18} />
+                                        </button>
+                                    </form>
+                                </>
+                            ) : (
+                                <motion.div
+                                    className="success-message"
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                >
+                                    <CheckCircle2 size={60} color="#10b981" />
+                                    <h2>Thank you!</h2>
+                                    <p>Your feedback has been successfully submitted.</p>
+                                </motion.div>
+                            )}
+                        </motion.div>
                     </div>
-                </div>
-            )}
+                )}
+            </AnimatePresence>
         </>
     );
 };

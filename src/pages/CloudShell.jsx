@@ -176,16 +176,21 @@ echo "✅ Hadoop setup complete! Run 'source ~/.bashrc' to activate environment.
                     <p style={{ marginBottom: '1.5rem', fontSize: '1.1rem', color: 'var(--text-secondary)' }}>
                         Click the button below to open Google Cloud Shell:
                     </p>
-                    <a
-                        href="https://shell.cloud.google.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="launch-button"
-                    >
-                        <Cloud size={20} />
-                        Open Cloud Shell
-                        <ExternalLink size={16} />
-                    </a>
+                    <div className="launch-group">
+                        <a
+                            href="https://shell.cloud.google.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="launch-button"
+                        >
+                            <Cloud size={20} />
+                            Open Cloud Shell
+                            <ExternalLink size={16} />
+                        </a>
+                        <div className="url-display">
+                            <code>https://shell.cloud.google.com</code>
+                        </div>
+                    </div>
                 </div>
             </section>
 

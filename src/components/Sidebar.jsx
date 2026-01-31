@@ -36,7 +36,7 @@ const Sidebar = ({ isVisible, onToggle }) => {
                 <NavLink
                     to="/cloud-shell"
                     className={({ isActive }) => `guide-link ${isActive ? 'active' : ''}`}
-                    style={{ justifyContent: 'center', background: 'var(--accent-primary-alpha)' }}
+                    style={{ justifyContent: 'center' }}
                 >
                     <Cloud size={18} />
                     <span style={{ fontSize: '0.85rem' }}>Cloud Shell Setup Guide</span>
