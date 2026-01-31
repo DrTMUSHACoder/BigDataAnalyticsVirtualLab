@@ -1,0 +1,198 @@
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    border-right: 1px solid var(--glass-border);
+    /* Apply glass effect provided by global .glass class if needed, or inline here */
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 50;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.sidebar-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -1rem;
+    position: relative;
+    z-index: 10;
+}
+
+.toggle-sidebar-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-sidebar-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    padding: 0;
+}
+
+.logo-icon {
+    background: linear-gradient(135deg, var(--accent-primary), #6366f1);
+    padding: 0.4rem;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.brand-text h1 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.brand-text span {
+    color: var(--accent-glow);
+}
+
+.nav-section-title {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    margin: 0.6rem 0.5rem 0.3rem 0.5rem;
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    transform: translateX(4px);
+}
+
+.nav-item.active {
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-glow);
+    border-color: rgba(14, 165, 233, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-experiment-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--accent-glow);
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+.nav-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 190px;
+}
+
+.nav-item.active .nav-title {
+    color: var(--accent-glow);
+}
+
+/* Setup Guides Section - Moved to top */
+.setup-guides {
+    margin-bottom: 0.4rem;
+    padding: 0;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.4rem;
+}
+
+.guide-header {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    padding: 0 0.75rem;
+}
+
+.guide-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid transparent;
+}
+
+.guide-link:hover {
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    transform: translateX(5px);
+}
+
+.guide-link.active {
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.2), rgba(14, 165, 233, 0.05));
+    color: var(--accent-glow);
+    border-color: var(--accent-primary);
+}
+
+.guide-link span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}

@@ -1,0 +1,252 @@
+.exercise-container {
+    padding: 3rem 4rem;
+    max-width: 1800px;
+    margin: 0 auto;
+    min-height: 90vh;
+    /* Ensure full height feel */
+}
+
+.exercise-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.exercise-id {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.exercise-title {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.6;
+    text-align: left;
+    max-width: 1200px;
+    white-space: pre-wrap;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.section {
+    margin-bottom: 2rem;
+    padding: 1.5rem 2rem;
+}
+
+.section.full-height {
+    height: 100%;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--accent-glow);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.section-header-row .section-title {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.step-item {
+    padding: 0.4rem 0;
+    margin-bottom: 0.25rem;
+    list-style: none;
+}
+
+.step-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    display: block;
+}
+
+.code-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-primary);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.copy-btn:hover {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.copy-btn.copied {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+/* Static Output */
+.output-header {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.output-screen {
+    background: #0d1117;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #30363d;
+    color: #3fb950;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    overflow: auto;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.code-wrapper {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.output-section {
+    margin-top: 2rem;
+    background: rgba(10, 10, 10, 0.3);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px dashed var(--glass-border);
+}
+
+.subsection-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem 0;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.output-block pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--success);
+    margin: 0;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+/* Static Output Display */
+.static-output {
+    animation: slideUp 0.4s ease-out;
+}
+
+.static-output pre {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.static-output pre::-webkit-scrollbar {
+    width: 8px;
+}
+
+.static-output pre::-webkit-scrollbar-track {
+    background: #0d0d0d;
+    border-radius: 4px;
+}
+
+.static-output pre::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 4px;
+}
+
+.static-output pre::-webkit-scrollbar-thumb:hover {
+    background: #4a4a4a;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.aim-text {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* Hidden elements clean up */
+
+.env-badge {
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-primary);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    padding: 0.35rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    display: inline-block;
+}
