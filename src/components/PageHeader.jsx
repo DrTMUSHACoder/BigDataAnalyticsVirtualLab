@@ -1,10 +1,13 @@
-import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './PageHeader.css';
 import ThemeSwitcher from './ThemeSwitcher';
 
 const PageHeader = () => {
+    const location = useLocation();
+    const isStickyPath = location.pathname === '/' || location.pathname === '/cloud-shell';
+
     return (
-        <header className="page-header glass">
+        <header className={`page-header glass ${isStickyPath ? 'sticky' : ''}`}>
             <div className="header-top-row">
                 <div className="header-left-col">
                     <img src="/ramachandra-logo.png" alt="Ramachandra Logo" className="header-logo" />

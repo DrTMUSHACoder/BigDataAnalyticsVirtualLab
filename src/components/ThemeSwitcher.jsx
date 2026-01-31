@@ -11,7 +11,7 @@ const themes = [
 ];
 
 const ThemeSwitcher = () => {
-    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('preferred-theme') || 'snow');
+    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('preferred-theme') || 'nord');
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', currentTheme);
