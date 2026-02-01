@@ -25,9 +25,10 @@ const FeedbackWidget = () => {
         try {
             await fetch('https://script.google.com/macros/s/AKfycbzXYafW4j5maR2X4LAg2BjqCUquMHnJpocL_W-2lLUEowELu4qo_v-Y2hEPaD_ZkZY8Yw/exec', {
                 method: 'POST',
-                // Using text/plain to avoid CORS preflight "OPTIONS" request, 
-                // but the body is still valid JSON which Apps Script will parse.
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                mode: 'no-cors', // <--- This fixes the CORS error
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
                 body: JSON.stringify(newFeedback)
             });
 
