@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Play, RotateCcw, Code2, Terminal as TerminalIcon } from 'lucide-react';
 import './CodeRunner.css';
 
-const CodeRunner = ({ code, language = 'java', className }) => {
+const CodeRunner = ({ code, language = 'java', className, expectedOutput }) => {
     const [isRunning, setIsRunning] = useState(false);
     const [output, setOutput] = useState('');
     const [error, setError] = useState(null);
@@ -36,11 +36,16 @@ const CodeRunner = ({ code, language = 'java', className }) => {
                 setOutput(result.output);
             }
         } catch (err) {
-            setError('connection_error');
-            setOutput(`❌ Cannot connect to execution server.\n\nMake sure the backend server is running on port 3001.\n\nRun: cd server && npm start`);
-        } finally {
-            setIsRunning(false);
+            // Fallback to simulation mode for static deployment
+            setTimeout(() => {
+                setError(null);
+                setOutput(`(Simulation Mode)\n\n${expectedOutput || 'Execution complete.'}`);
+                setIsRunning(false);
+            }, 1000);
+            return; // Exit early to prevent finally block from double-setting state immediately
         }
+
+        setIsRunning(false);
     };
 
     const extractClassName = (code) => {

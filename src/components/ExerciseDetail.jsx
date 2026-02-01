@@ -95,6 +95,7 @@ const ExerciseDetail = () => {
                             code={exercise.code}
                             language="java"
                             className={extractClassName(exercise.code)}
+                            expectedOutput={exercise.output}
                         />
                     ) : (
                         <div className="static-output">
