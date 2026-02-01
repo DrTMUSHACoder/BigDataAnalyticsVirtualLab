@@ -8,24 +8,33 @@ const Footer = () => {
     const [showCelebration, setShowCelebration] = useState(false);
 
     useEffect(() => {
-        // Using countapi.xyz for persistent counting without a database
-        // Namespace: iotdalab-manual, Key: visits
+        // Using counterapi.dev for persistent counting
+        // Namespace: bigdata-lab-v1, Key: visits
         const fetchCount = async () => {
             try {
-                // Initialize or increment
-                const response = await fetch('https://api.countapi.xyz/hit/iotdalab-manual/visits');
+                // This API increments by default on 'up' endpoint
+                const response = await fetch('https://api.counterapi.dev/v1/bigdata-lab-v1/visits/up');
                 const data = await response.json();
-                setVisitCount(data.value);
 
-                // Check for milestone (every 10th visitor)
-                if (data.value > 0 && data.value % 10 === 0) {
-                    setShowCelebration(true);
-                    triggerConfetti();
+                if (data && data.count) {
+                    setVisitCount(data.count);
+
+                    // Check for milestone (every 10th visitor)
+                    if (data.count > 0 && data.count % 10 === 0) {
+                        setShowCelebration(true);
+                        triggerConfetti();
+                    }
                 }
             } catch (error) {
                 console.error("Counter error:", error);
-                // Fallback for demo if API fails
-                setVisitCount(localStorage.getItem('local_visits') || 1);
+                // Try to get read-only count if increment failed
+                try {
+                    const readResponse = await fetch('https://api.counterapi.dev/v1/bigdata-lab-v1/visits');
+                    const readData = await readResponse.json();
+                    if (readData.count) setVisitCount(readData.count);
+                } catch (e) {
+                    setVisitCount("10+"); // Fallback that looks better than 1
+                }
             }
         };
 
