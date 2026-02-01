@@ -3,7 +3,7 @@ import { LogIn, Download, Trash2, LayoutDashboard, User } from 'lucide-react';
 import './Admin.css';
 
 const Admin = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('adminLoggedIn') === 'true');
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
     const [feedbackData, setFeedbackData] = useState([]);
@@ -17,6 +17,7 @@ const Admin = () => {
         e.preventDefault();
         if (credentials.username === 'ushadevi' && credentials.password === 'TMusha_29081978') {
             setIsLoggedIn(true);
+            localStorage.setItem('adminLoggedIn', 'true');
             setError('');
         } else {
             setError('Invalid credentials. Please try again.');
@@ -106,7 +107,10 @@ const Admin = () => {
                     <button onClick={clearFeedback} className="action-btn clear">
                         <Trash2 size={18} /> Clear Data
                     </button>
-                    <button onClick={() => setIsLoggedIn(false)} className="action-btn logout">
+                    <button onClick={() => {
+                        setIsLoggedIn(false);
+                        localStorage.removeItem('adminLoggedIn');
+                    }} className="action-btn logout">
                         Logout
                     </button>
                 </div>

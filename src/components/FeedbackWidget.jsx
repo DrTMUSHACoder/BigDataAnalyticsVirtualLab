@@ -55,6 +55,10 @@ const FeedbackWidget = () => {
         </div>
     );
 
+    const isAdmin = localStorage.getItem('adminLoggedIn') === 'true';
+
+    if (isAdmin) return null;
+
     return (
         <>
             <div className="feedback-widget">
