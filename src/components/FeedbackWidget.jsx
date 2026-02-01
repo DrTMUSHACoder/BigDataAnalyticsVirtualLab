@@ -4,87 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './FeedbackWidget.css';
 
 const FeedbackWidget = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-    const [feedback, setFeedback] = useState({
-        clarity: '',
-        helpful: '',
-        satisfaction: '',
-        navigation: '',
-        interactivity: '',
-        comments: ''
-    });
-
-    const isFormValid = feedback.clarity && feedback.helpful && feedback.satisfaction && feedback.navigation && feedback.interactivity;
-
-    const handleSubmit = async (e) => {
-        if (e) e.preventDefault();
-        const timestamp = new Date().toLocaleString();
-        const newFeedback = { ...feedback, timestamp };
-
-        try {
-            // Convert data to URLSearchParams for better compatibility with Google Apps Script
-            const params = new URLSearchParams();
-            params.append('timestamp', newFeedback.timestamp);
-            params.append('clarity', newFeedback.clarity);
-            params.append('helpful', newFeedback.helpful);
-            params.append('navigation', newFeedback.navigation);
-            params.append('interactivity', newFeedback.interactivity);
-            params.append('satisfaction', newFeedback.satisfaction);
-            params.append('comments', newFeedback.comments);
-
-            await fetch('https://script.google.com/macros/s/AKfycbzXYafW4j5maR2X4LAg2BjqCUquMHnJpocL_W-2lLUEowELu4qo_v-Y2hEPaD_ZkZY8Yw/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: params.toString()
-            });
-
-            // Also save to local storage as backup/instant UI update if needed, but primary is Cloud
-            // const existingData = JSON.parse(localStorage.getItem('lab_feedback') || '[]');
-            // localStorage.setItem('lab_feedback', JSON.stringify([...existingData, newFeedback]));
-
-            setSubmitted(true);
-            setTimeout(() => {
-                setIsOpen(false);
-                setSubmitted(false);
-                setFeedback({ clarity: '', helpful: '', satisfaction: '', navigation: '', interactivity: '', comments: '' });
-            }, 3000);
-        } catch (error) {
-            console.error("Feedback submission error:", error);
-            alert("Failed to save feedback. Please try again.");
-        }
-    };
-
-    const QuestionRow = ({ icon: Icon, label, name, options, value, onChange }) => (
-        <div className="feedback-row">
-            <div className="question-header">
-                <Icon size={18} className="q-icon" />
-                <label className="step-question">{label}</label>
-            </div>
-            <div className="options-row">
-                {options.map(opt => (
-                    <label key={opt} className={`opt-pill ${value === opt ? 'active' : ''}`}>
-                        <input
-                            type="radio"
-                            name={name}
-                            value={opt}
-                            checked={value === opt}
-                            onChange={(e) => onChange(e.target.value)}
-                        />
-                        {opt}
-                    </label>
-                ))}
-            </div>
-        </div>
-    );
-
-    // Only hide on the actual Admin page, so logged-in admins can still test it on other pages
-    const isAdminPage = window.location.hash.includes('admin');
-
-    if (isAdminPage) return null;
+    // Temporarily hidden - will be re-enabled after Google Forms integration
+    return null;
 
     return (
         <>
