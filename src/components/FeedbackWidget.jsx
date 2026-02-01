@@ -23,13 +23,23 @@ const FeedbackWidget = () => {
         const newFeedback = { ...feedback, timestamp };
 
         try {
+            // Convert data to URLSearchParams for better compatibility with Google Apps Script
+            const params = new URLSearchParams();
+            params.append('timestamp', newFeedback.timestamp);
+            params.append('clarity', newFeedback.clarity);
+            params.append('helpful', newFeedback.helpful);
+            params.append('navigation', newFeedback.navigation);
+            params.append('interactivity', newFeedback.interactivity);
+            params.append('satisfaction', newFeedback.satisfaction);
+            params.append('comments', newFeedback.comments);
+
             await fetch('https://script.google.com/macros/s/AKfycbzXYafW4j5maR2X4LAg2BjqCUquMHnJpocL_W-2lLUEowELu4qo_v-Y2hEPaD_ZkZY8Yw/exec', {
                 method: 'POST',
-                mode: 'no-cors', // <--- This fixes the CORS error
+                mode: 'no-cors',
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify(newFeedback)
+                body: params.toString()
             });
 
             // Also save to local storage as backup/instant UI update if needed, but primary is Cloud
