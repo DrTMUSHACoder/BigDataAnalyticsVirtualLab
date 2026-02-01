@@ -17,19 +17,34 @@ const FeedbackWidget = () => {
 
     const isFormValid = feedback.clarity && feedback.helpful && feedback.satisfaction && feedback.navigation && feedback.interactivity;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         if (e) e.preventDefault();
         const timestamp = new Date().toLocaleString();
         const newFeedback = { ...feedback, timestamp };
-        const existingData = JSON.parse(localStorage.getItem('lab_feedback') || '[]');
-        localStorage.setItem('lab_feedback', JSON.stringify([...existingData, newFeedback]));
 
-        setSubmitted(true);
-        setTimeout(() => {
-            setIsOpen(false);
-            setSubmitted(false);
-            setFeedback({ clarity: '', helpful: '', satisfaction: '', comments: '' });
-        }, 3000);
+        try {
+            await fetch('https://script.google.com/macros/s/AKfycbzXYafW4j5maR2X4LAg2BjqCUquMHnJpocL_W-2lLUEowELu4qo_v-Y2hEPaD_ZkZY8Yw/exec', {
+                method: 'POST',
+                // Using text/plain to avoid CORS preflight "OPTIONS" request, 
+                // but the body is still valid JSON which Apps Script will parse.
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(newFeedback)
+            });
+
+            // Also save to local storage as backup/instant UI update if needed, but primary is Cloud
+            // const existingData = JSON.parse(localStorage.getItem('lab_feedback') || '[]');
+            // localStorage.setItem('lab_feedback', JSON.stringify([...existingData, newFeedback]));
+
+            setSubmitted(true);
+            setTimeout(() => {
+                setIsOpen(false);
+                setSubmitted(false);
+                setFeedback({ clarity: '', helpful: '', satisfaction: '', navigation: '', interactivity: '', comments: '' });
+            }, 3000);
+        } catch (error) {
+            console.error("Feedback submission error:", error);
+            alert("Failed to save feedback. Please try again.");
+        }
     };
 
     const QuestionRow = ({ icon: Icon, label, name, options, value, onChange }) => (

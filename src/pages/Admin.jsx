@@ -8,9 +8,23 @@ const Admin = () => {
     const [error, setError] = useState('');
     const [feedbackData, setFeedbackData] = useState([]);
 
+    const fetchFeedback = async () => {
+        try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbzXYafW4j5maR2X4LAg2BjqCUquMHnJpocL_W-2lLUEowELu4qo_v-Y2hEPaD_ZkZY8Yw/exec');
+            const data = await response.json();
+            setFeedbackData(data);
+        } catch (error) {
+            console.error("Failed to fetch feedback:", error);
+        }
+    };
+
     useEffect(() => {
-        const storedFeedback = JSON.parse(localStorage.getItem('lab_feedback') || '[]');
-        setFeedbackData(storedFeedback);
+        // Initial fetch
+        fetchFeedback();
+
+        // Polling every 30 seconds to keep admin updated
+        const interval = setInterval(fetchFeedback, 30000);
+        return () => clearInterval(interval);
     }, []);
 
     const handleLogin = (e) => {
@@ -19,6 +33,8 @@ const Admin = () => {
             setIsLoggedIn(true);
             localStorage.setItem('adminLoggedIn', 'true');
             setError('');
+            // Fetch immediately on login
+            fetchFeedback();
         } else {
             setError('Invalid credentials. Please try again.');
         }
@@ -27,14 +43,17 @@ const Admin = () => {
     const downloadExcel = () => {
         if (feedbackData.length === 0) return;
 
-        const headers = ['Timestamp', 'Clarity', 'Helpful', 'Satisfaction'];
+        const headers = ['Timestamp', 'Clarity', 'Helpful', 'Navigation', 'Interactivity', 'Satisfaction', 'Comments'];
         const csvRows = [
             headers.join(','),
             ...feedbackData.map(row => [
                 `"${row.timestamp}"`,
                 `"${row.clarity}"`,
                 `"${row.helpful}"`,
-                `"${row.satisfaction}"`
+                `"${row.navigation || ''}"`,
+                `"${row.interactivity || ''}"`,
+                `"${row.satisfaction}"`,
+                `"${row.comments || ''}"`
             ].join(','))
         ];
 
@@ -49,8 +68,9 @@ const Admin = () => {
     };
 
     const clearFeedback = () => {
-        if (window.confirm('Are you sure you want to clear all feedback data?')) {
-            localStorage.removeItem('lab_feedback');
+        // Since data is on Google Sheets, we just clear the local view
+        // To delete real data, user should go to the Sheet
+        if (window.confirm('This will clear the view. To delete permanent data, please open the Google Sheet.')) {
             setFeedbackData([]);
         }
     };
