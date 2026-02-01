@@ -3,7 +3,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Terminal, BookOpen, CheckCircle, Play, Copy, Check, Info } from 'lucide-react';
+import { Terminal, BookOpen, CheckCircle, Play, Copy, Check, Info, ExternalLink } from 'lucide-react';
 import { exercises } from '../data/exercises';
 import CodeRunner from './CodeRunner';
 import './ExerciseDetail.css';
@@ -69,9 +69,16 @@ const ExerciseDetail = () => {
                             <button className={`copy-btn ${copied ? 'copied' : ''}`} onClick={handleCopy}>
                                 {copied ? <><Check size={16} /> Copied</> : <><Copy size={16} /> Copy Code</>}
                             </button>
-                            <span className="env-badge">
-                                {exercise.id === 1 ? 'Local Java' : 'Cloud Shell'}
-                            </span>
+                            <a
+                                href={exercise.id === 1 ? 'https://www.programiz.com/java-programming/online-compiler/' : 'https://console.cloud.google.com/'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="env-badge link"
+                                style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+                            >
+                                {exercise.id === 1 ? 'Run in Online Java Compiler' : 'Run in Google Cloud Shell'}
+                                <ExternalLink size={14} />
+                            </a>
                         </div>
                     </div>
 
