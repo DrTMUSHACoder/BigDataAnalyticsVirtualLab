@@ -6,6 +6,27 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Big Data Analytics Virtual Lab</title>
+  <script>
+    window.onerror = function (msg, url, line, col, error) {
+      document.getElementById('root').innerHTML = `
+        <div style="padding: 20px; color: #ff6b6b; background: #2d1b2e; font-family: monospace; height: 100vh;">
+          <h3>Critical Startup Error</h3>
+          <p><strong>Message:</strong> ${msg}</p>
+          <p><strong>Location:</strong> ${url}:${line}:${col}</p>
+          <p><strong>Stack:</strong> ${error ? error.stack : 'No stack trace'}</p>
+        </div>
+      `;
+      return false;
+    };
+    window.addEventListener('unhandledrejection', function (event) {
+      document.getElementById('root').innerHTML = `
+        <div style="padding: 20px; color: #ff6b6b; background: #2d1b2e; font-family: monospace; height: 100vh;">
+          <h3>Unhandled Promise Rejection</h3>
+          <p><strong>Reason:</strong> ${event.reason}</p>
+        </div>
+      `;
+    });
+  </script>
 </head>
 
 <body>
