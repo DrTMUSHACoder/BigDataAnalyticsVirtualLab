@@ -11,7 +11,7 @@ const PageHeader = () => {
         <header className={`page-header glass ${isStickyPath ? 'sticky' : ''}`}>
             <div className="header-top-row">
                 <div className="header-left-col">
-                    <img src="/ramachandra-logo.png" alt="Ramachandra Logo" className="header-logo" />
+                    <img src="ramachandra-logo.png" alt="Ramachandra Logo" className="header-logo" />
                 </div>
 
                 <div className="header-main-info">
