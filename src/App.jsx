@@ -102,7 +102,7 @@ function AppContent() {
                         )}
                     </svg>
                 </button>
-                <FeedbackWidget />
+                {/* <FeedbackWidget /> */}
                 <PageHeader />
                 <div style={{ flex: 1 }}>
                     <Routes>
