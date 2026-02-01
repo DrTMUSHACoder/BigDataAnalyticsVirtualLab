@@ -89,8 +89,8 @@ const ExerciseDetail = () => {
 
                 <div className="section glass-card full-width">
                     <h3 className="section-title"><Play size={20} /> Execution & Expected Output</h3>
-                    {/* CodeRunner temporarily disabled for debugging */}
-                    {false ? (
+                    {/* CodeRunner enabled */}
+                    {[1].includes(exercise.id) ? (
                         <CodeRunner
                             code={exercise.code}
                             language="java"
