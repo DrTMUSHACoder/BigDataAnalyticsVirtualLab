@@ -7,6 +7,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Big Data Analytics Virtual Lab</title>
   <script>
+    window.addEventListener('error', function (event) {
+      if (event.target && (event.target.tagName === 'SCRIPT' || event.target.tagName === 'LINK')) {
+        document.getElementById('root').innerHTML = `
+          <div style="padding: 20px; color: #ff6b6b; background: #2d1b2e; font-family: monospace; height: 100vh;">
+            <h3>Resource Loading Error</h3>
+            <p><strong>Failed to load:</strong> ${event.target.src || event.target.href}</p>
+            <p><strong>Type:</strong> ${event.target.tagName}</p>
+          </div>
+        `;
+      }
+    }, true); // Capture phase is essential for resource errors
+
     window.onerror = function (msg, url, line, col, error) {
       document.getElementById('root').innerHTML = `
         <div style="padding: 20px; color: #ff6b6b; background: #2d1b2e; font-family: monospace; height: 100vh;">
