@@ -70,9 +70,10 @@ const FeedbackWidget = () => {
         </div>
     );
 
-    const isAdmin = localStorage.getItem('adminLoggedIn') === 'true';
+    // Only hide on the actual Admin page, so logged-in admins can still test it on other pages
+    const isAdminPage = window.location.hash.includes('admin');
 
-    if (isAdmin) return null;
+    if (isAdminPage) return null;
 
     return (
         <>
