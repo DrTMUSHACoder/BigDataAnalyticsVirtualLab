@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import ExerciseDetail from './components/ExerciseDetail';
@@ -11,7 +11,7 @@ import Admin from './pages/Admin';
 import PageHeader from './components/PageHeader';
 
 function AppContent() {
-    const [sidebarVisible, setSidebarVisible] = React.useState(window.innerWidth > 1024);
+    const [sidebarVisible, setSidebarVisible] = useState(typeof window !== 'undefined' ? window.innerWidth > 1024 : true);
     const location = useLocation();
 
     // Auto-hide sidebar on mobile/tablet when navigating
