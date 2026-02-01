@@ -1,10 +1,72 @@
-import React from 'react';
-import { Mail, Linkedin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Linkedin, Users } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import './Footer.css';
 
 const Footer = () => {
+    const [visitCount, setVisitCount] = useState(0);
+    const [showCelebration, setShowCelebration] = useState(false);
+
+    useEffect(() => {
+        // Using countapi.xyz for persistent counting without a database
+        // Namespace: iotdalab-manual, Key: visits
+        const fetchCount = async () => {
+            try {
+                // Initialize or increment
+                const response = await fetch('https://api.countapi.xyz/hit/iotdalab-manual/visits');
+                const data = await response.json();
+                setVisitCount(data.value);
+
+                // Check for milestone (every 10th visitor)
+                if (data.value > 0 && data.value % 10 === 0) {
+                    setShowCelebration(true);
+                    triggerConfetti();
+                }
+            } catch (error) {
+                console.error("Counter error:", error);
+                // Fallback for demo if API fails
+                setVisitCount(localStorage.getItem('local_visits') || 1);
+            }
+        };
+
+        fetchCount();
+    }, []);
+
+    const triggerConfetti = () => {
+        const duration = 3000;
+        const end = Date.now() + duration;
+
+        const frame = () => {
+            confetti({
+                particleCount: 2,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#6366f1', '#10b981', '#f59e0b']
+            });
+            confetti({
+                particleCount: 2,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#6366f1', '#10b981', '#f59e0b']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        };
+
+        frame();
+    };
+
     return (
         <footer className="main-footer">
+            {showCelebration && (
+                <div className="milestone-banner">
+                    🎉 Congratulations! You are visitor #{visitCount}! Thank you using our Virtual Lab! 🎉
+                </div>
+            )}
             <div className="footer-container">
                 <div className="footer-top">
                     <div className="footer-info">
@@ -25,6 +87,10 @@ const Footer = () => {
                             <Mail size={18} />
                             <span>ushawin2020@gmail.com</span>
                         </a>
+                        <div className="footer-link-item visitor-badge">
+                            <Users size={18} />
+                            <span>Total Visitors: <b>{visitCount}</b></span>
+                        </div>
                     </div>
                 </div>
 
